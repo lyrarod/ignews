@@ -8,7 +8,7 @@ import { useEffect } from "react";
 
 import { getPrismicClient } from "../../../services/prismic";
 
-import styles from '../post.module.scss';
+import styles from "../post.module.scss";
 
 interface PostPreviewProps {
   post: {
@@ -16,18 +16,19 @@ interface PostPreviewProps {
     title: string;
     content: string;
     updatedAt: string;
-  }
+  };
 }
 
 export default function PostPreview({ post }: PostPreviewProps) {
-  const [session] = useSession()
-  const router = useRouter()
+  const [session] = useSession();
+  const router = useRouter();
+  console.log(post);
 
   useEffect(() => {
     if (session?.activeSubscription) {
-      router.push(`/posts/${post.slug}`)
+      router.push(`/posts/${post.slug}`);
     }
-  }, [session])
+  }, [session]);
 
   return (
     <>
@@ -39,7 +40,7 @@ export default function PostPreview({ post }: PostPreviewProps) {
         <article className={styles.post}>
           <h1>{post.title}</h1>
           <time>{post.updatedAt}</time>
-          <div 
+          <div
             className={`${styles.postContent} ${styles.previewContent}`}
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
@@ -59,26 +60,32 @@ export default function PostPreview({ post }: PostPreviewProps) {
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [],
-    fallback: 'blocking'
-  }
-}
+    fallback: "blocking",
+  };
+};
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { slug } = params;
+  console.log(slug);
 
-  const prismic = getPrismicClient()
+  const prismic = getPrismicClient();
 
-  const response = await prismic.getByUID('publication', String(slug), {})
+  const response = await prismic.getByUID("post", String(slug), {});
 
   const post = {
     slug,
-    title: RichText.asText(response.data.title),
-    content: RichText.asHtml(response.data.content.splice(0, 3)),
-    updatedAt: new Date(response.last_publication_date).toLocaleDateString('pt-BR', {
-      day: '2-digit',
-      month: 'long',
-      year: 'numeric'
-    })
+    title: response.data.title,
+    content: response.data.content[0].text.substring(0, 300) + ". . .",
+    // title: RichText.asText(response.data.title),
+    // content: RichText.asHtml(response.data.content.splice(0, 3)),
+    updatedAt: new Date(response.last_publication_date).toLocaleDateString(
+      "pt-BR",
+      {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      }
+    ),
   };
 
   return {
@@ -86,5 +93,5 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       post,
     },
     redirect: 60 * 30, // 30 minutes
-  }
-}
+  };
+};

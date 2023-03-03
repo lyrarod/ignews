@@ -32,3 +32,9 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# Prismic Slice Machine
+.slicemachine
+customtypes
+slices
+sm.json

@@ -620,6 +620,11 @@
   resolved "https://registry.yarnpkg.com/@prismicio/richtext/-/richtext-1.1.0.tgz#c8769c3d953ae42854a2aba951e3b2121682b8c7"
   integrity sha512-925JuFiZiIkwu9jmlR9O/U8xCSZk/Y6BQDXKpavoVsKo+n90ml1hGdtWkglIupX+ITQO1ZINyDgUgiY1oG9dsA==
 
+"@prismicio/types@^0.2.7":
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/@prismicio/types/-/types-0.2.7.tgz#4091136fa198b366d3fefb49d1dd31d336522540"
+  integrity sha512-xHPBWg+lPcl8U97VB/2oYK3MJlQoVPZq91hbeQO8WRyvq+zgpNST3xFOTk8SkQpgoH6wd50AxGZELvPrpojajQ==
+
 "@sinonjs/commons@^1.7.0":
   version "1.8.3"
   resolved "https://registry.yarnpkg.com/@sinonjs/commons/-/commons-1.8.3.tgz#3802ddd21a50a949b6721ddd72da36e67e7f1b2d"
