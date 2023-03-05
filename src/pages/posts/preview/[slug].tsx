@@ -22,7 +22,6 @@ interface PostPreviewProps {
 export default function PostPreview({ post }: PostPreviewProps) {
   const [session] = useSession();
   const router = useRouter();
-  console.log(post);
 
   useEffect(() => {
     if (session?.activeSubscription) {
@@ -66,18 +65,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { slug } = params;
-  console.log(slug);
 
   const prismic = getPrismicClient();
 
-  const response = await prismic.getByUID("post", String(slug), {});
+  const response = await prismic.getByUID("publication", String(slug), {});
 
   const post = {
     slug,
-    title: response.data.title,
-    content: response.data.content[0].text.substring(0, 300) + ". . .",
-    // title: RichText.asText(response.data.title),
-    // content: RichText.asHtml(response.data.content.splice(0, 3)),
+    title: RichText.asText(response.data.title),
+    content: RichText.asHtml(response.data.content.splice(0, 3)),
     updatedAt: new Date(response.last_publication_date).toLocaleDateString(
       "pt-BR",
       {

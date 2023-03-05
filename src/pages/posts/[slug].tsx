@@ -17,8 +17,6 @@ interface PostProps {
 }
 
 export default function Post({ post }: PostProps) {
-  // console.log(post);
-
   return (
     <>
       <Head>
@@ -57,16 +55,12 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   const prismic = getPrismicClient(req);
 
-  const response = await prismic.getByUID("post", String(slug), {});
-
-  // console.log(response.data);
+  const response = await prismic.getByUID("publication", String(slug), {});
 
   const post = {
     slug,
-    // title: RichText.asText(response.data.title),
-    // content: RichText.asHtml(response.data.content),
-    title: response.data.title,
-    content: response.data.content[0].text,
+    title: RichText.asText(response.data.title),
+    content: RichText.asHtml(response.data.content),
     updatedAt: new Date(response.last_publication_date).toLocaleDateString(
       "pt-BR",
       {

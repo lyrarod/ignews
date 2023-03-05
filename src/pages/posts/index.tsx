@@ -20,8 +20,6 @@ interface PostsProps {
 }
 
 export default function Posts({ posts }: PostsProps) {
-  // console.log(posts);
-
   return (
     <>
       <Head>
@@ -49,23 +47,20 @@ export const getStaticProps: GetStaticProps = async () => {
   const prismic = getPrismicClient();
 
   const response = await prismic.query(
-    [Prismic.predicates.at("document.type", "post")],
+    [Prismic.predicates.at("document.type", "publication")],
     {
-      fetch: ["post.title", "post.content"],
+      fetch: ["publication.title", "publication.content"],
       pageSize: 100,
     }
   );
-  // console.log(response.results);
 
   const posts = response.results.map((post) => {
     return {
       slug: post.uid,
-      title: post.data.title,
-      // title: RichText.asText(post.data.title),
+      title: RichText.asText(post.data.title),
       excerpt:
-        post.data.content
-          .find((content) => content.type === "paragraph")
-          ?.text.substring(0, 300) + ". . ." ?? "",
+        post.data.content.find((content) => content.type === "paragraph")
+          ?.text ?? "",
       updatedAt: new Date(post.last_publication_date).toLocaleDateString(
         "pt-BR",
         {
